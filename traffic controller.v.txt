@@ -1,0 +1,496 @@
+// Code your design here
+module Traffic_Light_Controller(
+
+input clk,rst,
+input a1,a2,a3,b1,b2,b3,c1,c2,c3,d1,d2,d3,
+input RC1,RC2,RC3,RC4,
+input SS1,SS2,SS3,SS4,
+
+output reg [1:0]camera,
+output reg [11:0]id
+);
+
+
+reg[6:0] ps;
+
+parameter sec9=9, sec12=12, sec6=3'd6, sec3=3;
+parameter
+
+S0 =  6'b000000,
+S1 =  6'b000001,
+S2 =  6'b000010,
+S3 =  6'b000011,
+S4 =  6'b000100,
+S5 =  6'b000101,
+S6 =  6'b000110,
+S7 =  6'b000111,
+S8 =  6'b001000,
+S9 =  6'b001001,
+S10 = 6'b001010,
+S11 = 6'b001011,
+S12 = 6'b001100,
+S13 = 6'b001101,
+S14 = 6'b001110,
+S15 = 6'b001111,
+S16 = 6'b010000,
+S17 = 6'b010001,
+S18 = 6'b010010,
+S19 = 6'b010011,
+S20 = 6'b010100,
+S21 = 6'b010101,
+S22 = 6'b010110,
+S23 = 6'b010111,
+S24 = 6'b011000,
+S25 = 6'b011001,
+S26 = 6'b011010,
+S27 = 6'b011011,
+S28 = 6'b011100,
+S29 = 6'b011101,
+S30 = 6'b011110,
+S31 = 6'b011111,
+S32 = 6'b100000,
+S33 = 6'b100001,
+S34 = 6'b100010;
+
+
+always@(posedge clk or posedge rst )
+
+begin
+if(rst==1)
+begin
+ps<=S0;
+end
+else
+
+	case (ps)
+      
+	S0: if(SS1 == 1 || SS2==1 || SS3 == 1 || SS4 == 1)
+		begin      ps <= S22;
+        end
+	    else
+	    begin                                        ps <=  S1;
+        end
+
+	S1: if     (a1 == 1 || a2 == 1 || a3 == 1)
+	    begin  ps<=S2;
+	    end  
+    	else if(b1 == 1 || b2 == 1 || b3 == 1)
+    	begin 	  ps<=S3;
+    	end
+    	else if(c1 == 1 || c2 == 1 || c3 == 1) 
+    	begin   ps<=S4;
+    	end
+    	else  
+    	begin                                    ps<=S5;
+    	end
+
+    S2: if     (a1 == 1)
+        begin ps<=S6; 
+        end 
+    	else if(a2 == 1)
+    	begin 	ps<=S7;
+    	end
+    	else  
+    	begin              ps<=S8;
+    	end
+
+    S3: if     (b1 == 1) 
+       begin ps<=S10; 
+       end 
+    	else if(b2 == 1)
+    	begin 	ps<=S11;
+    	end
+    	else 
+    	begin                ps<=S12;
+    	end
+
+    S4: if     (c1 == 1)  
+    begin   ps<=S14;
+    end  
+    	else if(c2 == 1)
+    	begin 	ps<=S15;
+    	end
+    	else  
+    	begin               ps<=S16;
+    	end
+
+    S5: if     (d1 == 1) 
+    begin    ps<=S18; 
+    end 
+    	else if(d2 == 1)
+    	begin 	ps<=S19;
+    	end
+    	else            
+    	begin     ps<=S20;
+    	end
+
+    S6:        
+    	begin               ps<=S9;
+    	
+    	end
+
+    S7:  
+		begin                    ps<=S9;
+    	
+    	end
+    S8: 
+		begin                     ps<= #10 S9;
+		
+		end
+    	
+
+    S9: 
+		begin						ps<=S0;
+		
+		end
+		
+
+
+    S10: 
+    	 begin                ps<=S13;
+    	 
+    	 end
+
+    S11: 
+    	begin                ps<=S13;
+    	
+    	end
+
+	S12:  
+    	begin              ps<=S13;
+    	
+    	end
+
+    S13: 
+		begin						ps<=S0;
+     
+        end
+    	
+
+    S14: 
+    	 begin                ps<=S17;
+    	
+    	 end
+    
+    S15: 
+    	begin               ps<=S17;
+    	
+    	end
+
+    S16:  
+    	begin               ps<=S17;
+    	
+    	end
+
+    S17: 
+		begin						ps<=S0;
+		
+		end
+
+    S18: 
+    	 begin               
+           ps<= #10 S21;
+    	
+    	 end
+
+    S19:
+    	begin                ps<=  #8 S21;
+    	
+    	end
+
+    S20: 
+    	begin               ps<=S21;
+    	
+    	end
+
+    S21: 
+		begin						ps<=S0;
+		
+		end
+
+
+      S22: if(SS1 == 1) begin                   ps<=  S23;
+    end
+    	 else if(SS2 == 1)begin               ps<=S24;
+    	 end
+     	 else if(SS2 == 1)  begin             ps<=S25;
+     	 end
+     	 else   begin                         ps<=S26;
+     	 end
+
+    S23:  if(SS2 == 1 || SS3 == 1 || SS4 == 1)  
+    	begin 		ps<= #10 27;
+    	
+    	end
+    	else 
+    	begin               ps<= # 10S9;
+    	
+    	end
+    	
+    	
+    S24: if(SS1 == 1 || SS3 == 1 || SS4 == 1)
+    	begin  ps<=28;
+    	
+    	end
+    	else 
+    	begin               ps<=S13;
+    	
+    	end
+
+    
+    S25:
+    	 
+    	if(SS2 == 1 || SS1 == 1 || SS4 == 1)  
+    	begin		ps<=29;
+    	
+    	end
+    	else
+    	begin                ps<=S17;
+    	
+    	end
+
+    S26: 
+		 if(SS2 == 1 || SS3 == 1 || SS1 == 1)  
+		begin		ps<=30;
+		end
+		
+		
+		else 
+		begin               ps<=S21;
+		
+		end
+
+    S27:  begin                    ps<=S31;
+    end
+	S28:  begin                    ps<=S32;
+	end
+	S29:  begin                    ps<=S33;
+	end
+	S30:  begin                    ps<=S34;
+	end
+
+	S31: if    (SS2 == 1)begin    ps<=S24;
+	end  
+    	else if(SS3 == 1)begin 	ps<=S25;
+    	end
+    	else          begin       ps<=S26;
+    	end
+
+	S32: if    (SS1 == 1) begin   ps<=S23;
+	end  
+    	else if(SS3 == 1)begin 	ps<=S25;
+    	end
+    	else             begin    ps<=S26;
+    	end
+
+	S33: if    (SS1 == 1)  begin  ps<=S23;
+	end  
+    	else if(SS2 == 1)begin 	ps<=S24;
+    	end
+    	else             begin    ps<=S26;
+    	end
+
+	S34: if    (SS2 == 1)  begin  ps<=S24; 
+	end 
+    	else if(SS3 == 1)begin 	ps<=S25;
+    	end
+    	else             begin    ps<=S23;
+    	end
+
+default: ps = S0;
+endcase
+end
+
+
+always@(ps)
+begin
+case(ps)
+
+S0:
+begin
+id <= 12'b100100100100;
+end
+
+S1:
+begin
+id <= 12'b100100100100;
+end
+
+S2:
+  begin
+begin
+id <= 12'b100100100100;
+end
+  if (RC2 == 1 )          
+		begin    camera <= 1;
+		end
+	    else 
+	    begin      
+          camera <= 0;
+	    end
+  end
+
+S3:
+begin
+id <= 12'b100100100100;
+end
+
+S4:
+begin
+id <= 12'b100100100100;
+end
+
+S5:
+begin
+id <= 12'b100100100100;
+end
+
+S6:
+begin
+id <= 12'b001100100100;
+end
+
+S7:
+begin
+id <= 12'b001100100100;
+end
+
+S8:
+begin
+id <= 12'b001100100100;
+end
+
+S9:
+begin
+id <= 12'b010100100100;
+end
+
+S10:
+begin
+id <= 12'b100001100100;
+end
+
+S11:
+begin
+id <= 12'b100001100100;
+end
+
+S12:
+begin
+id <= 12'b100001100100;
+end
+
+S13:
+begin
+id <= 12'b100010100100;
+end
+
+
+S14:
+begin
+id <= 12'b100100001100;
+end
+
+S15:
+begin
+id <= 12'b100100001100;
+end
+
+S16:
+begin
+id <= 12'b100100001100;
+end
+
+S17:
+begin
+id <= 12'b100100010100;
+end
+
+S18:
+begin
+id <= 12'b100100100001;
+end
+
+S19:
+begin
+id <= 12'b100100100001;
+end
+
+S20:
+begin
+id <= 12'b100100100001;
+end
+
+S21:
+begin
+id <= 12'b100100100010;
+end
+
+S22:
+begin
+id <= 12'b100100100100;
+end
+
+S23:
+begin
+id <= 12'b001100100100;
+end
+
+S24:
+begin
+id <= 12'b100001100100;
+end
+
+S25:
+begin
+id <= 12'b100100001100;
+end
+
+S26:
+begin
+id <= 12'b100100100001;
+end
+
+S27:
+begin
+id <= 12'b010100100100;
+end
+
+S28:
+begin
+id <= 12'b100010100100;
+end
+
+S29:
+begin
+id <= 12'b100100010100;
+end
+
+S30:
+begin
+id <= 12'b100100100010;
+end
+
+S31:
+begin
+id <= 12'b100100100100;
+end
+
+S32:
+begin
+id <= 12'b100100100100;
+end
+
+S33:
+begin
+id <= 12'b100100100100;
+end
+
+S34:
+begin
+id <= 12'b100100100100;
+end
+endcase
+end
+endmodule
+
