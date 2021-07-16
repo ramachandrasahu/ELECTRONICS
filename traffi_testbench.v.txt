@@ -1,0 +1,51 @@
+// Code your testbench here
+// or browse Examples
+
+module Traffic_Light_Controller_TB;
+reg clk,rst;
+wire [11:0]id;
+reg camera;
+reg  a1,a2,a3,b1,b2,b3,c1,c2,c3,d1,d2,d3;
+reg RC1,RC2,RC3,RC4;
+  
+reg SS1,SS2,SS3,SS4;Traffic_Light_Controller dut(.clk(clk) , .rst(rst) ,.a1(a1), .a2(a2), .a3(a3), .b1(b1), .b2(b2), .b3(b3), .c1(c1), .c2(c2), .c3(c3), .d1(d1), .d2(d2), .d3(d3), .RC1(RC1), .RC2(RC2), .RC3(RC3), .RC4(RC4), .SS1(SS1), .SS2(SS2), .SS3(SS3), .SS4(SS4));
+
+initial
+
+begin
+  $dumpfile("Traffic_Light_Controller.vcd");
+  $dumpvars(000,Traffic_Light_Controller_TB);
+
+clk=1'b0;
+  forever #1 clk=~clk;
+end
+
+initial
+begin
+rst=0;
+  #1;
+rst=1;
+  #1;
+rst=0;
+#200;
+$finish;
+end
+
+initial
+begin
+            $dumpfile("Traffic_Light_Controller.vcd");
+			$dumpvars(000,Traffic_Light_Controller_TB);
+			
+			#2 a1=1;
+  			#2 RC2=1;
+  			#6 RC2=0;
+            #12 a1=0;
+            
+            
+  			
+           
+            
+			#50
+			$finish;
+end
+endmodule
